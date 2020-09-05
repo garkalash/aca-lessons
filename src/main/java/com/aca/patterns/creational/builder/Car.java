@@ -1,9 +1,9 @@
-package com.aca.patterns.builder;
+package com.aca.patterns.creational.builder;
 
-import com.aca.patterns.builder.component.Engine;
-import com.aca.patterns.builder.component.GPSNavigator;
-import com.aca.patterns.builder.component.Transmission;
-import com.aca.patterns.builder.component.Type;
+import com.aca.patterns.creational.builder.component.Engine;
+import com.aca.patterns.creational.builder.component.GPSNavigator;
+import com.aca.patterns.creational.builder.component.Transmission;
+import com.aca.patterns.creational.builder.component.Type;
 
 /**
  * @author: garik

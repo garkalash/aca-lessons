@@ -1,4 +1,4 @@
-package com.aca.patterns;
+package com.aca.patterns.creational;
 
 /**
  * @author: garik

@@ -1,4 +1,4 @@
-package com.aca.patterns.builder.component;
+package com.aca.patterns.creational.builder.component;
 
 /**
  * @author: garik

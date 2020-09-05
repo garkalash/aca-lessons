@@ -1,4 +1,4 @@
-package com.aca.patterns.abstract_factory;
+package com.aca.patterns.creational.abstract_factory;
 
 /**
  * @author: garik

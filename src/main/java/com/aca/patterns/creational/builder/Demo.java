@@ -1,7 +1,7 @@
-package com.aca.patterns.builder;
+package com.aca.patterns.creational.builder;
 
-import com.aca.patterns.builder.component.Engine;
-import com.aca.patterns.builder.component.Transmission;
+import com.aca.patterns.creational.builder.component.Engine;
+import com.aca.patterns.creational.builder.component.Transmission;
 
 /**
  * @author: garik
