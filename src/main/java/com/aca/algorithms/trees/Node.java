@@ -6,7 +6,7 @@ package com.aca.algorithms.trees;
  */
 public class Node {
 
-    final int key;
+    int key;
     int balanceFactor;
     Node left, right;
 

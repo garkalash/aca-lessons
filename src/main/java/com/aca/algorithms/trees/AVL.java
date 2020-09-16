@@ -59,29 +59,89 @@ public class AVL {
            return node;
        }
 
-       node.balanceFactor = height(node.right)  - height(node.left);
-       //right right
-       if(node.balanceFactor == 2 && key < node.left.key){
-           return rightRotate(node);
-       }
-
-       //left left
-       if(node.balanceFactor == -2 && key > node.right.key){
-           return leftRotate(node);
-       }
-
-       if(node.balanceFactor == -2 && key < node.right.key){
-           node.right = rightRotate(node.right);
-           return leftRotate(node);
-
-       }
-
-       if(node.balanceFactor == 2 && key > node.left.key){
-           node.left = leftRotate(node.left);
-           return rightRotate(node);
-
-       }
-
-       return node;
+       return reBalanceTree(node, key);
     }
+
+    Node deleteNode(Node node,  int key){
+        if(node == null) return node;
+
+        if(key < node.key){
+            node.left = deleteNode(node.left, key);
+        } else if(key > node.key){
+            node.right = deleteNode(node.right, key);
+        } else {
+            boolean hasMaxOneChild = node.left == null || node.right == null;
+
+            if(hasMaxOneChild) {
+                Node temp = null;
+                boolean noLeftChild = temp == node.left;
+                if(noLeftChild){
+                    temp = node.right;
+                } else {
+                    temp = node.left;
+                }
+
+                boolean hasNoChild = temp == null;
+                if(hasNoChild){
+                    temp = node;
+                    node = null;
+                } else {
+                    node = temp;
+                }
+            } else {
+                Node temp = minValue(node.right);
+                node.key = temp.key;
+                node.right = deleteNode(node.right, temp.key);
+
+            }
+
+        }
+
+        if(node == null){
+            return node;
+        }
+
+        return reBalanceTree(node, key);
+    }
+
+    private Node reBalanceTree(Node node, Integer key){
+        node.balanceFactor = height(node.right)  - height(node.left);
+        //right right
+        if(node.balanceFactor == 2 && key < node.left.key){
+            return rightRotate(node);
+        }
+
+        //left left
+        if(node.balanceFactor == -2 && key > node.right.key){
+            return leftRotate(node);
+        }
+
+        if(node.balanceFactor == -2 && key < node.right.key){
+            node.right = rightRotate(node.right);
+            return leftRotate(node);
+
+        }
+
+        if(node.balanceFactor == 2 && key > node.left.key){
+            node.left = leftRotate(node.left);
+            return rightRotate(node);
+
+        }
+
+        return node;
+    }
+
+    private Node minValue(Node root){
+        Node current = root;
+
+        while (current.left != null) {
+            current = current.left;
+        }
+
+        return current;
+    }
+
+
+
+
 }
