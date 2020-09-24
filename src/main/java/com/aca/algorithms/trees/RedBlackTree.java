@@ -57,6 +57,37 @@ public class RedBlackTree extends BinarySearchTree {
     }
 
     public void remove(Object data) {
+        BinaryTreeNode node = nodeContaining(data);
+
+        if(node == null){
+            return;
+        } else if(node.getLeft() != null && node.getRight() != null){
+            BinaryTreeNode predecessor = predecessor(node);
+            node.setData(predecessor.getData());
+            node = predecessor;
+        }
+
+        Node pullUp = leftOf((Node) node) == null ? rightOf((Node) node) : leftOf((Node) node);
+        if(pullUp != null){
+            if(node == root){
+                setRoot(pullUp);
+            } else if(node.getParent().getLeft() == node){
+                node.getParent().setLeft(pullUp);
+            } else {
+                node.getParent().setRight(pullUp);
+            }
+            if(isBlack((Node) node)){
+                adjustAfterRemoval((Node) node);
+            }
+        } else if(node == root){
+           setRoot(null);
+        } else {
+            if(isBlack((Node) node)){
+                adjustAfterRemoval((Node) node);
+            }
+            node.removeFromParent();
+        }
+
         //implementation here
     }
 
@@ -93,6 +124,64 @@ public class RedBlackTree extends BinarySearchTree {
     }
 
     private void adjustAfterRemoval(Node n) {
+        while(n != root && isBlack(n)){
+            if(n == leftOf(parentOf(n))){
+                Node sibling = rightOf(parentOf(n));
+                if(isRed(sibling)){
+                    setColor(sibling, Color.BLACK);
+                    setColor(parentOf(n), Color.RED);
+                    rotateLeft(parentOf(n));
+                    sibling = rightOf(parentOf(n));
+                }
+
+                if(isBlack(leftOf(sibling)) && isBlack(rightOf(sibling))){
+                    setColor(sibling, Color.RED);
+                    n = parentOf(n);
+                } else {
+                    if(isBlack(rightOf(sibling))){
+                        setColor(leftOf(sibling), Color.BLACK);
+                        setColor(sibling, Color.RED);
+                        rotateRight(sibling);
+                        sibling = rightOf(parentOf(n));
+                    }
+                    setColor(sibling, colorOf(parentOf(n)));
+                    setColor(parentOf(n), Color.BLACK);
+                    setColor(rightOf(n), Color.BLACK);
+                    rotateLeft(parentOf(n));
+                    n = (Node) root;
+                }
+            } else {
+                Node sibling = leftOf(parentOf(n));
+                if(isRed(sibling)){
+                    setColor(sibling, Color.BLACK);
+                    setColor(parentOf(n), Color.RED);
+                    rotateRight(parentOf(n));
+                    sibling = leftOf(parentOf(n));
+                }
+
+                if(isBlack(leftOf(sibling)) && isBlack(rightOf(sibling))){
+                    setColor(sibling, Color.RED);
+                    n = parentOf(n);
+                } else {
+                    if(isBlack(leftOf(sibling))){
+                        setColor(rightOf(sibling), Color.BLACK);
+                        setColor(sibling, Color.RED);
+                        rotateLeft(sibling);
+                        sibling = leftOf(parentOf(n));
+                    }
+                    setColor(sibling, colorOf(parentOf(n)));
+                    setColor(parentOf(n), Color.BLACK);
+                    setColor(leftOf(n), Color.BLACK);
+                    rotateRight(parentOf(n));
+                    n = (Node) root;
+                }
+            }
+
+            setColor(n, Color.BLACK);
+        }
+
+
+
         //implementation
     }
 
