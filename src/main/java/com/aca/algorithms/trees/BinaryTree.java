@@ -40,6 +40,17 @@ class BinaryTree{
 
     }
 
+    int countNodes(Node root){
+        if(root == null) return 0;
+        return 1 + countNodes(root.right) + countNodes(root.left);
+    }
+
+    boolean isComplete(Node root, int index, int counts){
+        if(root == null ) return true;
+        if(index >= counts) return false;
+        return isComplete(root.left, 2 * index +1, counts) && isComplete(root.right, 2 * index + 2, counts);
+    }
+
     public static void main(String[] args) {
         BinaryTree binaryTree = new BinaryTree();
 
@@ -48,19 +59,12 @@ class BinaryTree{
         binaryTree.root.right = new Node(10);
 
         binaryTree.root.left.left = new Node(1);
+        binaryTree.root.left.right = new Node(1);
 
-        binaryTree.root.right.left = new Node(6);
-        binaryTree.root.right.right = new Node(12);
-        binaryTree.root.right.right.right = new Node(13);
-        binaryTree.root.right.right.right.right = new Node(14);
+        binaryTree.root.right.right = new Node(6);
 
-        binaryTree.inOrder(binaryTree.root);
+        System.out.println(binaryTree.isComplete(binaryTree.root, 0, binaryTree.countNodes(binaryTree.root)));
 
-        System.out.println(">>>>");
-        binaryTree.postOrder(binaryTree.root);
-
-        System.out.println(">>>>");
-        binaryTree.preOrder(binaryTree.root);
 
     }
 }
